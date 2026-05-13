@@ -18,7 +18,7 @@ end)
 
 core.register_on_player_inventory_action(function(player)
 	do_action(player)
-end
+end)
 
 core.register_globalstep(function(dtime)
 	for name, data in pairs(afk_check.players) do
