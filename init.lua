@@ -3,19 +3,26 @@ local afk_check = { players = { } }
 local function do_action(player)
 	if not player then return end
 	local playername = player:get_player_name()
-	afk_check.players[playername] = { 
-		last_action = 0 
-	}
+	afk_check.players[playername].last_action = 0
 end
 
 core.register_globalstep(function(dtime)
 	for name, data in pairs(afk_check.players) do
 		data.last_action = data.last_action + dtime
+        if data.last_action > 300 then 
+            data.afk = true
+        else
+            data.afk = false
+        end
     end
 end)
 
 core.register_on_joinplayer(function(player)
-	do_action(player)
+	if not player then return end
+    local playername = player:get_player_name()
+	afk_check.players[playername] = {
+        last_action = 0
+    }
 end)
 
 core.register_on_leaveplayer(function(player)
@@ -24,15 +31,12 @@ core.register_on_leaveplayer(function(player)
 end)
 
 core.register_on_chat_message(function(name)
-	afk_check.players[name] = {
-		last_action = 0
-	}
+	afk_check.players[name].last_action = 0
 end)
 
 core.register_on_chatcommand(function(name)
-	afk_check.players[name] = {
-		last_action = 0
-	}
+	afk_check.players[name].last_action = 0
+	
 end)
 
 core.register_on_craft(function(itemstack, player)
