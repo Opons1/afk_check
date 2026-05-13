@@ -9,7 +9,7 @@ end
 core.register_globalstep(function(dtime)
 	for name, data in pairs(afk_check.players) do
 		data.last_action = data.last_action + dtime
-        if data.last_action > 300 then 
+        if data.last_action > 10 then 
             data.afk = true
         else
             data.afk = false
