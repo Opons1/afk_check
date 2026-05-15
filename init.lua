@@ -52,12 +52,15 @@ core.register_on_leaveplayer(function(player)
 end)
 
 core.register_on_chat_message(function(name)
+	if afk_check.players[name] then
 	afk_check.players[name].last_action = 0
+	end
 end)
 
 core.register_on_chatcommand(function(name)
+	if afk_check.players[name] then 
 	afk_check.players[name].last_action = 0
-	
+	end
 end)
 
 core.register_on_craft(function(itemstack, player)
