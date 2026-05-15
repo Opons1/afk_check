@@ -1,4 +1,4 @@
-local afk_check = { players = { } }
+afk_check = { players = { } }
 
 local function do_action(player)
 	if not player then return end
@@ -9,10 +9,16 @@ end
 core.register_globalstep(function(dtime)
 	for name, data in pairs(afk_check.players) do
 		data.last_action = data.last_action + dtime
-        if data.last_action > 10 then 
-            data.afk = true
+        if data.last_action > 10 then
+            if data.is_afk ~= true then 
+                data.is_afk = true
+                core.chat_send_all("Player " .. name .. " is now AFK")
+            end
         else
-            data.afk = false
+			if data.is_afk == true then
+        		data.is_afk = false
+		    	core.chat_send_all("Player " .. name .. " is no longer AFK")
+			end
         end
     end
 end)
@@ -21,7 +27,8 @@ core.register_on_joinplayer(function(player)
 	if not player then return end
     local playername = player:get_player_name()
 	afk_check.players[playername] = {
-        last_action = 0
+        last_action = 0,
+		is_afk = false
     }
 end)
 
