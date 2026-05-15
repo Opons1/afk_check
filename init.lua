@@ -7,7 +7,7 @@ local function do_action(player)
     local name = player:get_player_name()
     if afk_check.players[name] then
         afk_check.players[name].last_action = 0
-        afk_check.players[name].afk = false
+        afk_check.players[name].is_afk = false
     end
 end
 
