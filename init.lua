@@ -76,3 +76,20 @@ core.register_on_punchnode(function(pos, node, puncher)
 	do_action(puncher)
 end)
 
+core.register_chatcommand("afklist", {
+    description = "Lists all players activity",
+    privs = {shout=true},
+    func = function(name, param)
+        local msg = ""
+        local count = 0
+        for p_name, data in pairs(afk_check.players) do
+            count = count + 1
+            local status = data.is_afk and "AFK" or "Active"
+            msg = msg .. p_name .. ": " .. status .. "\n"
+        end
+        if count == 0 then
+            return false, "No players online."
+        end
+        return true, msg
+    end,
+})
