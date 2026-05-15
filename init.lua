@@ -1,10 +1,24 @@
-afk_check = { players = { } }
+afk_check = { 
+	players = {} 
+}
 
 local function do_action(player)
-	if not player then return end
-	local playername = player:get_player_name()
-	afk_check.players[playername].last_action = 0
+    if not player then return end
+    local name = player:get_player_name()
+    if afk_check.players[name] then
+        afk_check.players[name].last_action = 0
+        afk_check.players[name].afk = false
+    end
 end
+
+core.register_on_player_receive_fields(function(player, formname, fields)
+    if next(fields) == nil then return end 
+    do_action(player)
+end)
+
+core.register_on_player_inventory_action(function(player)
+	do_action(player)
+end)
 
 core.register_globalstep(function(dtime)
 	for name, data in pairs(afk_check.players) do
