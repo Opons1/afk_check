@@ -42,15 +42,15 @@ core.register_globalstep(function(dtime)
     end
 	for name, data in pairs(afk_check.players) do
 		data.last_action = data.last_action + dtime
-        if data.last_action > 10 then
+        if data.last_action > 180 then
             if data.is_afk ~= true then 
                 data.is_afk = true
-                core.chat_send_all("Player " .. name .. " is now AFK")
+                core.chat_send_all(name .. " is now AFK")
             end
         else
 			if data.is_afk == true then
         		data.is_afk = false
-		    	core.chat_send_all("Player " .. name .. " is no longer AFK")
+		    	core.chat_send_all(name .. " is no longer AFK")
 			end
         end
     end
